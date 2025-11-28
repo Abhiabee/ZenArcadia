@@ -1,0 +1,5 @@
+export default function Home() {
+  return (
+    <div className="text-3xl text-red-500 p-6">Tailwind is working ✔️</div>
+  );
+}
