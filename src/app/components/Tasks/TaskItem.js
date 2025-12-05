@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import {
   updateTask,
@@ -16,6 +16,7 @@ import { FaCheck } from "react-icons/fa6";
 export default function TaskItem({ task }) {
   const dispatch = useDispatch();
   const [editing, setEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [notes, setNotes] = useState(task.notes || "");
   const titleRef = useRef(null);
@@ -26,18 +27,26 @@ export default function TaskItem({ task }) {
     setEditing(false);
   }
 
-  async function handleDelete() {
+  const handleDelete = useCallback(async () => {
+    if (isDeleting) return;
     if (!confirm("Delete this task?")) return;
-    await dispatch(deleteTask(task.id));
-  }
 
-  async function handleToggleComplete() {
-    await dispatch(toggleComplete(task.id));
-  }
+    setIsDeleting(true);
+    try {
+      await dispatch(deleteTask(task.id));
+    } catch (error) {
+      console.error("Failed to delete task:", error);
+      setIsDeleting(false);
+    }
+  }, [dispatch, task.id, isDeleting]);
 
-  async function handlePriority() {
-    await dispatch(setPriority(task.id));
-  }
+  const handleToggleComplete = useCallback(() => {
+    dispatch(toggleComplete(task.id));
+  }, [dispatch, task.id]);
+
+  const handlePriority = useCallback(() => {
+    dispatch(setPriority(task.id));
+  }, [dispatch, task.id]);
 
   return (
     <div
@@ -92,9 +101,14 @@ export default function TaskItem({ task }) {
                 </button>
                 <button
                   onClick={handleDelete}
-                  className="px-2 py-1 rounded bg-red-600 text-white"
+                  disabled={isDeleting}
+                  className={`px-2 py-1 rounded ${
+                    isDeleting
+                      ? "bg-red-800 text-gray-400 opacity-50 cursor-not-allowed"
+                      : "bg-red-600 text-white hover:bg-red-700"
+                  } transition-colors`}
                 >
-                  <AiOutlineDelete />
+                  {isDeleting ? "..." : <AiOutlineDelete />}
                 </button>
               </div>
             </div>
