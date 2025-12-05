@@ -1,4 +1,3 @@
-// src/lib/db.js
 import localforage from "localforage";
 
 const SESSIONS_KEY = "focus:sessions";

@@ -1,4 +1,3 @@
-// src/components/Timer/TimerControls.js
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -8,7 +7,7 @@ import {
   reset,
   setCustomDuration,
 } from "../../store/timerSlice";
-import { TIMER_MODES } from "../../store/timerSlice"; // adjust import path if needed
+import { TIMER_MODES } from "../../store/timerSlice";
 
 export default function TimerControls() {
   const [isMounted, setIsMounted] = useState(false);
@@ -36,76 +35,76 @@ export default function TimerControls() {
   }
 
   return (
-    <div className="w-full mx-auto p-4 flex flex-col gap-4">
+    <div className="mx-auto p-4 flex flex-col gap-4 backdrop-blur-lg bg-white/10 border-2 border-white/20 rounded-lg">
       <div className="flex items-center justify-center gap-3 flex-wrap">
         <button
           onClick={() => dispatch(setMode("pomodoro"))}
-          className={`px-3 py-2 rounded-md transition ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition shadow-sm border ${
             mode === "pomodoro"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-800 text-gray-300"
+              ? "bg-blue-100 text-blue-600 border-blue-200 shadow-md"
+              : "bg-gray-800 text-gray-300 border-gray-700"
           }`}
         >
-          Pomodoro
+          <span className="text-sm font-medium">Pomodoro</span>
         </button>
 
         <button
           onClick={() => dispatch(setMode("short_break"))}
-          className={`px-3 py-2 rounded-md transition ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition shadow-sm border ${
             mode === "short_break"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-800 text-gray-300"
+              ? "bg-blue-100 text-blue-600 border-blue-200 shadow-md"
+              : "bg-gray-800 text-gray-300 border-gray-700"
           }`}
         >
-          Short Break
+          <span className="text-sm font-medium">Short Break</span>
         </button>
 
         <button
           onClick={() => dispatch(setMode("long_break"))}
-          className={`px-3 py-2 rounded-md transition ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition shadow-sm border ${
             mode === "long_break"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-800 text-gray-300"
+              ? "bg-blue-100 text-blue-600 border-blue-200 shadow-md"
+              : "bg-gray-800 text-gray-300 border-gray-700"
           }`}
         >
-          Long Break
+          <span className="text-sm font-medium">Long Break</span>
         </button>
 
         <button
           onClick={() => dispatch(setMode("countdown"))}
-          className={`px-3 py-2 rounded-md transition ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition shadow-sm border ${
             mode === "countdown"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-800 text-gray-300"
+              ? "bg-blue-100 text-blue-600 border-blue-200 shadow-md"
+              : "bg-gray-800 text-gray-300 border-gray-700"
           }`}
         >
-          Countdown
+          <span className="text-sm font-medium">Countdown</span>
         </button>
 
         <button
           onClick={() => dispatch(setMode("stopwatch"))}
-          className={`px-3 py-2 rounded-md transition ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-full transition shadow-sm border  ${
             mode === "stopwatch"
-              ? "bg-indigo-600 text-white"
-              : "bg-gray-800 text-gray-300"
+              ? "bg-blue-100 text-blue-600 border-blue-200 shadow-md"
+              : "bg-gray-800 text-gray-300 border-gray-700"
           }`}
         >
-          Stopwatch
+          <span className="text-sm font-medium">Stopwatch</span>
         </button>
       </div>
 
-      <div className="flex items-center justify-center gap-4 mt-6">
+      <div className="flex items-center justify-center gap-4">
         {!running ? (
           <button
             onClick={() => dispatch(start())}
-            className="px-6 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg shadow"
+            className="flex items-center justify-center px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-sm border border-emerald-600"
           >
             Start
           </button>
         ) : (
           <button
             onClick={() => dispatch(pause())}
-            className="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-white rounded-lg shadow"
+            className="flex items-center justify-center px-4 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-full shadow-sm border border-yellow-600"
           >
             Pause
           </button>
@@ -113,13 +112,13 @@ export default function TimerControls() {
 
         <button
           onClick={() => dispatch(reset())}
-          className="px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg shadow"
+          className="flex items-center justify-center px-4 py-2 bg-gray-700 hover:bg-gray-100 text-white hover:text-black rounded-full shadow-sm border border-gray-600"
         >
           Reset
         </button>
       </div>
 
-      <div className="flex items-center justify-center gap-3 mt-6">
+      <div className="flex items-center justify-center gap-3">
         <label className="text-sm text-gray-300">Custom minutes</label>
         <input
           type="number"
@@ -130,7 +129,7 @@ export default function TimerControls() {
         />
         <button
           onClick={applyCustom}
-          className="px-3 py-1 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md"
+          className="flex items-center justify-center px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-full shadow-sm border border-indigo-600"
         >
           Apply
         </button>

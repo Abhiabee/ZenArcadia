@@ -1,4 +1,3 @@
-// src/store/sessionsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { saveSessionToDB, getAllSessions } from "../lib/db";
 import { format } from "date-fns";
@@ -6,7 +5,6 @@ import { format } from "date-fns";
 export const saveSession = createAsyncThunk(
   "sessions/saveSession",
   async (session, thunkAPI) => {
-    // Add a date string
     const s = {
       ...session,
       date: format(new Date(session.startTs || Date.now()), "yyyy-MM-dd"),

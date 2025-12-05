@@ -1,4 +1,3 @@
-// src/store/timerSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 import { readStorage } from "../lib/storage";
 
@@ -79,7 +78,7 @@ const timerSlice = createSlice({
         // Starting fresh
         state.startTimestamp = now;
         if (state.mode === TIMER_MODES.STOPWATCH) {
-          state.remainingSeconds = 0; // Ensure stopwatch starts at 0
+          state.remainingSeconds = 0;
         }
       }
 
@@ -149,15 +148,30 @@ const timerSlice = createSlice({
         // Recalculate time if timer was running
         if (state.running && state.startTimestamp) {
           const now = Date.now();
-          const elapsed = Math.round((now - state.startTimestamp) / 1000);
+          const elapsedSeconds = Math.round(
+            (now - state.startTimestamp) / 1000
+          );
+
           if (state.mode === TIMER_MODES.STOPWATCH) {
-            state.remainingSeconds = elapsed;
+            // For stopwatch: elapsed time since start is the display value
+            state.remainingSeconds = elapsedSeconds;
+            // Ensure startTimestamp stays in the past so elapsed calculation works
+            state.startTimestamp = now - elapsedSeconds * 1000;
           } else {
-            const rem = state.durationSeconds - elapsed;
-            state.remainingSeconds = rem > 0 ? rem : 0;
-            if (rem <= 0) {
+            // For countdown timers: calculate remaining time
+            const remaining = state.durationSeconds - elapsedSeconds;
+
+            if (remaining <= 0) {
+              // Timer has completed during the offline period
               state.running = false;
               state.startTimestamp = null;
+              state.remainingSeconds = 0;
+            } else {
+              // Timer is still running - adjust startTimestamp to current time
+              // This is critical: ensures tick() calculates correct elapsed time
+              state.remainingSeconds = remaining;
+              state.startTimestamp =
+                now - (state.durationSeconds - remaining) * 1000;
             }
           }
         }

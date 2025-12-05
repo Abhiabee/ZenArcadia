@@ -1,7 +1,5 @@
-// src/components/TimerHydration.js
 "use client";
-
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hydrate } from "../store/timerSlice";
 import { readStorage } from "../lib/storage";
@@ -19,5 +17,5 @@ export default function TimerHydration() {
     }
   }, [dispatch, isHydrated]);
 
-  return null; // This component doesn't render anything
+  return null;
 }
