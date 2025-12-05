@@ -10,6 +10,27 @@ const DEFAULT_TRACKS = [
     defaultVolume: 0.6,
     loop: true,
   },
+  {
+    id: "beach",
+    name: "Beach",
+    src: "/sounds/beach.mp3",
+    defaultVolume: 0.6,
+    loop: true,
+  },
+  {
+    id: "night",
+    name: "Night",
+    src: "/sounds/night.mp3",
+    defaultVolume: 0.5,
+    loop: true,
+  },
+  {
+    id: "forest",
+    name: "Forest",
+    src: "/sounds/forest.mp3",
+    defaultVolume: 0.5,
+    loop: true,
+  },
 ];
 
 class AudioManager {

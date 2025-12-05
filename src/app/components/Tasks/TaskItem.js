@@ -1,5 +1,11 @@
 "use client";
-import React, { useState, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+  useTransition,
+} from "react";
 import { useDispatch } from "react-redux";
 import {
   updateTask,
@@ -15,17 +21,25 @@ import { FaCheck } from "react-icons/fa6";
 
 export default function TaskItem({ task }) {
   const dispatch = useDispatch();
+  const [, startTransition] = useTransition();
   const [editing, setEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [notes, setNotes] = useState(task.notes || "");
   const titleRef = useRef(null);
 
-  async function save() {
+  const save = useCallback(async () => {
     if (!title.trim()) return;
-    await dispatch(updateTask({ ...task, title: title.trim(), notes }));
+    startTransition(() => {
+      dispatch(updateTask({ ...task, title: title.trim(), notes }));
+    });
     setEditing(false);
-  }
+  }, [title, notes, task, dispatch, startTransition]);
+
+  const formattedDate = useMemo(
+    () => new Date(task.createdAt).toLocaleString(),
+    [task.createdAt]
+  );
 
   const handleDelete = useCallback(async () => {
     if (isDeleting) return;
@@ -116,7 +130,7 @@ export default function TaskItem({ task }) {
               <div className="mt-1 text-xs text-white/70">{task.notes}</div>
             ) : null}
             <div className="mt-1 text-xs text-gray-400">
-              Created: {new Date(task.createdAt).toLocaleString()}
+              Created: {formattedDate}
             </div>
           </>
         ) : (
