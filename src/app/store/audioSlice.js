@@ -42,6 +42,15 @@ const DEFAULT_STATE = {
       muted: false,
       solo: false,
     },
+    {
+      id: "study",
+      name: "Study",
+      src: "/sounds/study.mp3",
+      volume: 0.5,
+      playing: false,
+      muted: false,
+      solo: false,
+    },
   ],
   masterVolume: 1,
 };

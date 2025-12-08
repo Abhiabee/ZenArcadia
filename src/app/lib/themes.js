@@ -24,4 +24,10 @@ export const DEFAULT_THEMES = [
     src: "/themes/Back4.webp",
     overlay: "rgba(255,247,250,0.35)",
   },
+  {
+    id: "Back5",
+    name: "Back5",
+    src: "/themes/Back5.png",
+    overlay: "rgba(255,247,250,0.35)",
+  },
 ];

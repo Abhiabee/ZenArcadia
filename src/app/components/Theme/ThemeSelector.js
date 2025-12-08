@@ -25,7 +25,16 @@ export default function ThemeSelector() {
 
   return (
     <div className="space-y-4">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto scrollbar-hide">
+        <style>{`
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
         <div className="flex gap-4 min-w-min">
           {themes.map((t) => (
             <div key={t.id} className="flex-shrink-0">

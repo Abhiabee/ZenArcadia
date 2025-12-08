@@ -31,6 +31,13 @@ const DEFAULT_TRACKS = [
     defaultVolume: 0.5,
     loop: true,
   },
+  {
+    id: "study",
+    name: "Study",
+    src: "/sounds/study.mp3",
+    defaultVolume: 0.5,
+    loop: true,
+  },
 ];
 
 class AudioManager {

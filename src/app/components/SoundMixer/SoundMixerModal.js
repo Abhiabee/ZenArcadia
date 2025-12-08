@@ -31,7 +31,16 @@ export default function SoundMixerModal({ isOpen, onClose }) {
             className="fixed inset-0 flex items-center justify-center z-50 p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative max-w-2xl max-h-[80vh] overflow-y-auto rounded-xl">
+            <div className="relative max-w-2xl max-h-[80vh] overflow-y-auto rounded-xl scrollbar-hide">
+              <style>{`
+          .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+          }
+          .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+          }
+        `}</style>
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-lg transition-colors z-10 bg-black/20 backdrop-blur-sm"
