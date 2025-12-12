@@ -96,9 +96,12 @@ const audioSlice = createSlice({
       const id = action.payload;
       const t = state.tracks.find((x) => x.id === id);
       if (!t) return;
+      const wasMuted = t.muted;
       t.muted = !t.muted;
       // if muted, set playing false
       if (t.muted) t.playing = false;
+      // if unmuting, restore playing to true
+      if (!t.muted && wasMuted) t.playing = true;
     },
     setSolo(state, action) {
       const id = action.payload;

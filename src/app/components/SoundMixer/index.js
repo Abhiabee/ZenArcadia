@@ -61,17 +61,18 @@ export default function SoundMixer() {
       // volume scaled by master
       const scaled = Math.max(0, Math.min(1, (t.volume ?? 1) * master));
       mgr.setVolume(t.id, scaled);
-      // mute handling
-      mgr.mute(t.id, !!t.muted);
     });
 
-    // start/stop playing based on playing flags
+    // Handle playing state - consider both playing flag and muted state
     audioState.tracks.forEach((t) => {
-      if (t.playing && !mgr.trackMeta[t.id]?.playing) {
-        // only play if not already playing
+      const shouldPlay = t.playing && !t.muted;
+      const isCurrentlyPlaying = mgr.trackMeta[t.id]?.playing;
+
+      if (shouldPlay && !isCurrentlyPlaying) {
+        // only play if not already playing and not muted
         mgr.play(t.id);
-      } else if (!t.playing && mgr.trackMeta[t.id]?.playing) {
-        // only pause if currently playing
+      } else if (!shouldPlay && isCurrentlyPlaying) {
+        // stop if should not be playing
         mgr.pause(t.id);
       }
     });
@@ -96,8 +97,7 @@ export default function SoundMixer() {
 
   const handleMute = (id) => {
     dispatch(toggleMute(id));
-    const t = audioState.tracks.find((x) => x.id === id);
-    audioManager.mute(id, !t?.muted);
+    // Effect will handle all syncing based on muted state
   };
 
   const handleMasterVolume = (e) => {
