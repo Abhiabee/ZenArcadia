@@ -67,11 +67,12 @@ export default function SoundMixer() {
 
     // start/stop playing based on playing flags
     audioState.tracks.forEach((t) => {
-      if (t.playing) {
+      if (t.playing && !mgr.trackMeta[t.id]?.playing) {
+        // only play if not already playing
         mgr.play(t.id);
-      } else {
-        // only pause if the howler reports playing
-        if (mgr.trackMeta[t.id]?.playing) mgr.pause(t.id);
+      } else if (!t.playing && mgr.trackMeta[t.id]?.playing) {
+        // only pause if currently playing
+        mgr.pause(t.id);
       }
     });
   }, [audioState]);
