@@ -35,7 +35,7 @@ export default function ThemeSelector() {
             display: none;
           }
         `}</style>
-        <div className="flex gap-4 min-w-min">
+        <div className="flex gap-4 min-w-min p-2">
           {themes.map((t) => (
             <div key={t.id} className="flex-shrink-0">
               <ThemeThumbnail

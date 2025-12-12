@@ -30,10 +30,22 @@ export default function ThemeSelectorModal({ isOpen, onClose }) {
             className="fixed inset-0 flex items-center justify-center z-50 p-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative w-full max-w-2xl max-h-[80vh] overflow-y-auto rounded-xl backdrop-blur-lg bg-white/10 border-2 border-white/20 ">
+            <div
+              className="relative w-full max-w-2xl rounded-xl bg-white/10 backdrop-blur-lg border-2 border-white/20"
+              style={{ overflow: "visible" }}
+            >
+              <style>{`
+                .scrollbar-hide {
+                  -ms-overflow-style: none;  /* IE and Edge */
+                  scrollbar-width: none;  /* Firefox */
+                }
+                .scrollbar-hide::-webkit-scrollbar {
+                  display: none;  /* Chrome, Safari and Opera */
+                }
+              `}</style>
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 hover:bg-white/10 rounded-lg transition-colors z-10 bg-black/20 backdrop-blur-sm"
+                className="absolute -top-3 -right-3 p-2 hover:bg-white/10 rounded-lg transition-colors z-10 bg-black/20 backdrop-blur-sm"
                 aria-label="Close modal"
               >
                 <X size={24} className="text-white" />

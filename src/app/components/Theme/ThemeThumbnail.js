@@ -15,8 +15,10 @@ export default function ThemeThumbnail({
 
   return (
     <div
-      className={`relative w-40 h-24 rounded-lg overflow-hidden border cursor-pointer ${
-        selected ? "ring-2 ring-indigo-400" : "border-transparent"
+      className={`relative w-40 h-24 rounded-lg overflow-hidden cursor-pointer transition-all ${
+        selected
+          ? "ring-4 ring-indigo-400 border-2 border-indigo-400 shadow-lg shadow-indigo-400/50 p-2"
+          : "border-2 border-gray-400"
       }`}
       onClick={handleClick}
     >
