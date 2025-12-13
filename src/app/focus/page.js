@@ -59,8 +59,8 @@ export default function FocusPage() {
     <main className="relative min-h-screen text-white flex items-center justify-center p-6 overflow-hidden">
       <div className="w-full max-w-3xl">
         <div className="flex flex-col items-center gap-6">
-          {/* Notifications Toggle */}
-          <div className="absolute top-6 right-6 rounded-lg p-4">
+          {/* Notifications Toggle - Hidden on mobile, visible on md and larger screens */}
+          <div className="absolute top-6 right-6 rounded-lg p-4 hidden md:block">
             <NotificationsToggle />
           </div>
 
