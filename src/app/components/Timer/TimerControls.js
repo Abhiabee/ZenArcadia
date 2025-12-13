@@ -8,7 +8,7 @@ import {
   setCustomDuration,
 } from "../../store/timerSlice";
 import { TIMER_MODES } from "../../store/timerSlice";
-import { sendNotification } from "../../lib/notify";
+import { sendNotification, vibrate } from "../../lib/notify";
 
 export default function TimerControls() {
   const [isMounted, setIsMounted] = useState(false);
@@ -102,10 +102,13 @@ export default function TimerControls() {
           <button
             onClick={() => {
               dispatch(start());
+              // Vibrate on button press for tactile feedback
+              vibrate([100, 50, 100]);
               if (notificationsEnabled) {
                 sendNotification("Focus started", {
                   body: "Good luck — focus on your session!",
                   autoCloseMs: 5000,
+                  vibrationPattern: [200, 100, 200],
                 });
               }
             }}

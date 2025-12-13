@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { sendNotification } from "../../lib/notify";
+import { sendNotification, vibrate } from "../../lib/notify";
 
 function formatTime(totalSeconds) {
   const s = Math.max(0, Math.floor(totalSeconds));
@@ -35,11 +35,16 @@ export default function TimerDisplay() {
 
     if (isTimerEnded && lastTimerEndTime !== timerState.lastEnded) {
       setLastTimerEndTime(timerState.lastEnded);
+
+      // Vibrate with completion pattern (longer vibrations for timer end)
+      vibrate([300, 200, 300, 200, 300]);
+
       if (notificationsEnabled) {
         const modeLabel = timerState.mode.replace("_", " ");
         sendNotification("Session Complete! 🎉", {
           body: `Your ${modeLabel} session is done. Great work!`,
           autoCloseMs: 5000,
+          vibrationPattern: [300, 200, 300, 200, 300],
         });
       }
     }

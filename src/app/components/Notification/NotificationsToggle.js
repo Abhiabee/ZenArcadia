@@ -21,6 +21,16 @@ export default function NotificationsToggle() {
     setIsMounted(true);
   }, [dispatch]);
 
+  const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent);
+  };
+
+  const isMobileDevice = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  };
+
   async function handleToggle() {
     if (enabled) {
       dispatch(setEnabled(false));
@@ -34,11 +44,40 @@ export default function NotificationsToggle() {
 
     if (result === "granted") {
       dispatch(setEnabled(true));
-    } else {
+    } else if (result === "unsupported") {
+      // Notifications not supported on this device
+      let message = "Notifications are not supported in your browser.";
+
+      if (isIOS()) {
+        message =
+          "iOS doesn't support web push notifications. " +
+          "You can add this app to your home screen and notifications may work differently.\n\n" +
+          "Go to Safari menu → Add to Home Screen to use as app.";
+      } else if (isMobileDevice()) {
+        message =
+          "Notifications may not be fully supported on this device. " +
+          "Try using the app via home screen shortcut or a different browser.";
+      }
+
+      alert(message);
       dispatch(setEnabled(false));
-      alert(
-        "Notification was not granted. You can enable it in your browser settings."
-      );
+    } else if (result === "denied") {
+      // User explicitly denied
+      let message =
+        "Notifications were blocked. Enable them in your browser settings.\n\n";
+
+      if (isIOS()) {
+        message +=
+          "Go to iPhone Settings → Safari → Notifications → allow notifications.";
+      } else if (isMobileDevice()) {
+        message += "Go to your browser settings and enable notifications.";
+      } else {
+        message +=
+          "Click the lock icon in the address bar to change notification settings.";
+      }
+
+      alert(message);
+      dispatch(setEnabled(false));
     }
   }
 
