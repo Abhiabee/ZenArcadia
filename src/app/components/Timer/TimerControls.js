@@ -8,11 +8,15 @@ import {
   setCustomDuration,
 } from "../../store/timerSlice";
 import { TIMER_MODES } from "../../store/timerSlice";
+import { sendNotification } from "../../lib/notify";
 
 export default function TimerControls() {
   const [isMounted, setIsMounted] = useState(false);
   const dispatch = useDispatch();
   const timerState = useSelector((s) => s.timer);
+  const { enabled: notificationsEnabled } = useSelector(
+    (s) => s.notifications || { enabled: false }
+  );
 
   useEffect(() => {
     setIsMounted(true);
@@ -96,7 +100,15 @@ export default function TimerControls() {
       <div className="flex items-center justify-center gap-4">
         {!running ? (
           <button
-            onClick={() => dispatch(start())}
+            onClick={() => {
+              dispatch(start());
+              if (notificationsEnabled) {
+                sendNotification("Focus started", {
+                  body: "Good luck — focus on your session!",
+                  autoCloseMs: 5000,
+                });
+              }
+            }}
             className="flex items-center justify-center px-6 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-sm border border-emerald-600"
           >
             Start

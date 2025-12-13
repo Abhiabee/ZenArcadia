@@ -5,6 +5,7 @@ import audioReducer, { AUDIO_SLICE_ACTIONS } from "./audioSlice";
 import themeReducer, { THEME_SLICE_ACTIONS } from "./themeSlice";
 import tasksReducer from "./tasksSlice";
 import { debouncedWriter } from "../lib/storage";
+import notificationsReducer from "./notificationsSlice";
 
 // Create debounced saves
 const audioSave = debouncedWriter("focus:sounds", 500);
@@ -45,6 +46,7 @@ export const store = configureStore({
     audio: audioReducer,
     theme: themeReducer,
     tasks: tasksReducer,
+    notifications: notificationsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(

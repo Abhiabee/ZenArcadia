@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { sendNotification } from "../../lib/notify";
 
 function formatTime(totalSeconds) {
   const s = Math.max(0, Math.floor(totalSeconds));
@@ -15,10 +16,42 @@ function formatTime(totalSeconds) {
 export default function TimerDisplay() {
   const [isMounted, setIsMounted] = useState(false);
   const timerState = useSelector((state) => state.timer);
+  const { enabled: notificationsEnabled } = useSelector(
+    (s) => s.notifications || { enabled: false }
+  );
+  const [lastTimerEndTime, setLastTimerEndTime] = useState(null);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  // Detect when timer ends and send notification
+  useEffect(() => {
+    const isTimerEnded =
+      !timerState.running &&
+      timerState.remainingSeconds === 0 &&
+      timerState.durationSeconds > 0 &&
+      timerState.mode !== "stopwatch";
+
+    if (isTimerEnded && lastTimerEndTime !== timerState.lastEnded) {
+      setLastTimerEndTime(timerState.lastEnded);
+      if (notificationsEnabled) {
+        const modeLabel = timerState.mode.replace("_", " ");
+        sendNotification("Session Complete! 🎉", {
+          body: `Your ${modeLabel} session is done. Great work!`,
+          autoCloseMs: 5000,
+        });
+      }
+    }
+  }, [
+    timerState.remainingSeconds,
+    timerState.running,
+    notificationsEnabled,
+    lastTimerEndTime,
+    timerState.lastEnded,
+    timerState.durationSeconds,
+    timerState.mode,
+  ]);
 
   // Don't render until after hydration to prevent mismatch
   if (!isMounted) {

@@ -12,6 +12,7 @@ import ThemeSelector from "../components/Theme/ThemeSelector";
 import ThemeSelectorModal from "../components/Theme/ThemeSelectorModal";
 import TaskListModal from "../components/Tasks/TaskListModal";
 import Dock from "../components/Dock/index";
+import NotificationsToggle from "../components/Notification/NotificationsToggle";
 import { RxLapTimer } from "react-icons/rx";
 import { PiMusicNotesFill } from "react-icons/pi";
 import { LuWallpaper } from "react-icons/lu";
@@ -58,6 +59,11 @@ export default function FocusPage() {
     <main className="relative min-h-screen text-white flex items-center justify-center p-6 overflow-hidden">
       <div className="w-full max-w-3xl">
         <div className="flex flex-col items-center gap-6">
+          {/* Notifications Toggle */}
+          <div className="absolute top-6 right-6 rounded-lg p-4">
+            <NotificationsToggle />
+          </div>
+
           <div className="flex items-center gap-3">
             <h1 className="text-4xl font-bold">ZenArcadia</h1>
             <Image
